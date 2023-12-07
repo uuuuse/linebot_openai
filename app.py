@@ -55,74 +55,75 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if msg == "命令：功能選單":
-        line_bot_api.reply_message(  
-                        event.reply_token,
-                        TemplateSendMessage(
-                            alt_text='Buttons template',
-                            template=ButtonsTemplate(
-                                title='ChatGpt功能',
-                                text='請選擇使用功能',
-                                actions=[
-                                    MessageTemplateAction(
-                                        label='聊天',
-                                        text='chatbot',
-                                        data='chatbot'
-                                    ),
-                                    MessageTemplateAction(
-                                        label='錄音/文字轉換器',
-                                        text='Audiobot',
-                                        data='Audiobot'
-                                    ),
-                                    MessageTemplateAction(
-                                        label='圖像生成',
-                                        text='Imagebot',
-                                        data='Imagebot'
-                                    )
-                                ]
+    for event in events:
+        if msg == "命令：功能選單":
+            line_bot_api.reply_message(  
+                            event.reply_token,
+                            TemplateSendMessage(
+                                alt_text='Buttons template',
+                                template=ButtonsTemplate(
+                                    title='ChatGpt功能',
+                                    text='請選擇使用功能',
+                                    actions=[
+                                        MessageTemplateAction(
+                                            label='聊天',
+                                            text='chatbot',
+                                            data='chatbot'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='錄音/文字轉換器',
+                                            text='Audiobot',
+                                            data='Audiobot'
+                                        ),
+                                        MessageTemplateAction(
+                                            label='圖像生成',
+                                            text='Imagebot',
+                                            data='Imagebot'
+                                        )
+                                    ]
+                                )
                             )
                         )
-                    )
-    elif isinstance(event, PostbackEvent):
-        if event.postback.data=='chatbot':
-            line_bot_api.reply_message(
-                        event.reply_token,
-                        TemplateSendMessage(
-                            alt_text='Buttons template',
-                            template=ButtonsTemplate(
-                                title='ChatBot模型',
-                                text='請選擇ChatBot模型',
-                                actions=[
-                                    PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
-                                        label='Gpt-4 turbo',
-                                        text='gpt-4-1106-preview',
-                                        data='gpt-4-1106-preview'
-                                    ),
-                                    PostbackTemplateAction(
-                                        label='Gpt-4 turbo(圖像分析)',
-                                        text='gpt-4-vision-preview',
-                                        data='gpt-4-vision-preview'
-                                    ),
-                                    PostbackTemplateAction(
-                                        label='Gpt-4',
-                                        text='gpt-4',
-                                        data='gpt-4'
-                                    )
-                                ]
-                            )
-                        )
-                    )
         elif isinstance(event, PostbackEvent):
-            model=event.postback.data
-            
-    try:
-        GPT_answer = GPT_response(msg,model)
-        print(GPT_answer)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(+'---目前模型:'+model))
-    except:
-        print(traceback.format_exc())
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+'---目前模型:'+model))
+            if event.postback.data=='chatbot':
+                line_bot_api.reply_message(
+                            event.reply_token,
+                            TemplateSendMessage(
+                                alt_text='Buttons template',
+                                template=ButtonsTemplate(
+                                    title='ChatBot模型',
+                                    text='請選擇ChatBot模型',
+                                    actions=[
+                                        PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
+                                            label='Gpt-4 turbo',
+                                            text='gpt-4-1106-preview',
+                                            data='gpt-4-1106-preview'
+                                        ),
+                                        PostbackTemplateAction(
+                                            label='Gpt-4 turbo(圖像分析)',
+                                            text='gpt-4-vision-preview',
+                                            data='gpt-4-vision-preview'
+                                        ),
+                                        PostbackTemplateAction(
+                                            label='Gpt-4',
+                                            text='gpt-4',
+                                            data='gpt-4'
+                                        )
+                                    ]
+                                )
+                            )
+                        )
+            elif isinstance(event, PostbackEvent):
+                model=event.postback.data
+                
+        try:
+            GPT_answer = GPT_response(msg,model)
+            print(GPT_answer)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(+'---目前模型:'+model))
+        except:
+            print(traceback.format_exc())
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+'---目前模型:'+model))
         
 
 @handler.add(PostbackEvent)
