@@ -81,7 +81,12 @@ def handle_message(event):
                                     )
                                 )
                             )
-    elif isinstance(event, PostbackEvent):
+    
+        
+
+@handler.add(PostbackEvent)
+def handle_message(event):
+    if isinstance(event, PostbackEvent):
         if event.postback.data == "chatbot":
                 if msg=="chatbot":
                     line_bot_api.reply_message(
@@ -108,10 +113,6 @@ def handle_message(event):
                                     )
                                 )
                             )
-        
-
-@handler.add(PostbackEvent)
-def handle_message(event):
     print(event.postback.data)
 
 
