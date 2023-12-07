@@ -65,27 +65,27 @@ def handle_message(event):
                                         title='ChatGpt功能',
                                         text='請選擇使用功能',
                                         actions=[
-                                            MessageTemplateAction(
+                                            PostbackAction(
                                                 label='聊天',
                                                 text='chatbot',
-                                                data='A'
+                                                data='chatbot'
                                             ),
-                                            MessageTemplateAction(
+                                            PostbackAction(
                                                 label='錄音/文字轉換器',
                                                 text='Audiobot',
-                                                data='B'
+                                                data='Audiobot'
                                             ),
-                                            MessageTemplateAction(
+                                            PostbackAction(
                                                 label='圖像生成',
                                                 text='Imagebot',
-                                                data='B'
+                                                data='Imagebot'
                                             )
                                         ]
                                     )
                                 )
                             )
     elif isinstance(event, PostbackEvent):
-        if event.postback.data == "A":
+        if event.postback.data == "chatbot":
                 if msg=="chatbot":
                     line_bot_api.reply_message(
                                 event.reply_token,
