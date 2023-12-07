@@ -69,24 +69,24 @@ def handle_message(event):
                                             MessageTemplateAction(
                                                 label='聊天',
                                                 text='chatbot',
-                                                data='chatbot'
+                                                data='a'
                                             ),
                                             MessageTemplateAction(
                                                 label='錄音/文字轉換器',
                                                 text='Audiobot',
-                                                data='Audiobot'
+                                                data='b'
                                             ),
                                             MessageTemplateAction(
                                                 label='圖像生成',
                                                 text='Imagebot',
-                                                data='Imagebot'
+                                                data='c'
                                             )
                                         ]
                                     )
                                 )
                             )
         elif isinstance(event, PostbackEvent):
-            if event.postback.data=='chatbot':
+            if event.postback.data=='a':
                 line_bot_api.reply_message(
                             event.reply_token,
                             TemplateSendMessage(
