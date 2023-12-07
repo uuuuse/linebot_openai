@@ -56,8 +56,7 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     for event in event:
-        if isinstance(event, MessageEvent):  # 如果有訊息事件
-            if msg == "命令：功能選單":
+        if msg == "命令：功能選單":
                     line_bot_api.reply_message(  
                                     event.reply_token,
                                     TemplateSendMessage(
@@ -85,8 +84,7 @@ def handle_message(event):
                                         )
                                     )
                                 )
-        elif isinstance(event, PostbackEvent):
-            if event.postback.data=='chatbot':
+        elif event.postback.data=='chatbot':
                 line_bot_api.reply_message(
                             event.reply_token,
                             TemplateSendMessage(
