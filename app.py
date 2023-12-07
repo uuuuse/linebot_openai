@@ -84,38 +84,37 @@ def handle_message(event):
                                     )
                                 )
                             )
-    elif isinstance(event, PostbackEvent):
-            if event.postback.data=='a':
-                line_bot_api.reply_message(
-                            event.reply_token,
-                            TemplateSendMessage(
-                                alt_text='Buttons template',
-                                template=ButtonsTemplate(
-                                    title='ChatBot模型',
-                                    text='請選擇ChatBot模型',
-                                    actions=[
-                                        PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
-                                            label='Gpt-4 turbo',
-                                            text='gpt-4-1106-preview',
-                                            data='gpt-4-1106-preview'
-                                        ),
-                                        PostbackTemplateAction(
-                                            label='Gpt-4 turbo(圖像分析)',
-                                            text='gpt-4-vision-preview',
-                                            data='gpt-4-vision-preview'
-                                        ),
-                                        PostbackTemplateAction(
-                                            label='Gpt-4',
-                                            text='gpt-4',
-                                            data='gpt-4'
-                                        )
-                                    ]
+            elif isinstance(event, PostbackEvent):
+                if event.postback.data=='a':
+                    line_bot_api.reply_message(
+                                event.reply_token,
+                                TemplateSendMessage(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        title='ChatBot模型',
+                                        text='請選擇ChatBot模型',
+                                        actions=[
+                                            PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
+                                                label='Gpt-4 turbo',
+                                                text='gpt-4-1106-preview',
+                                                data='gpt-4-1106-preview'
+                                            ),
+                                            PostbackTemplateAction(
+                                                label='Gpt-4 turbo(圖像分析)',
+                                                text='gpt-4-vision-preview',
+                                                data='gpt-4-vision-preview'
+                                            ),
+                                            PostbackTemplateAction(
+                                                label='Gpt-4',
+                                                text='gpt-4',
+                                                data='gpt-4'
+                                            )
+                                        ]
+                                    )
                                 )
                             )
-                        )
-            elif isinstance(event, PostbackEvent):
-                model=event.postback.data
-    elif isinstance(event, PostbackEvent):
+                elif isinstance(event, PostbackEvent):
+                    model=event.postback.data
             try:
                     GPT_answer = GPT_response(msg)
                     print(GPT_answer)
