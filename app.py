@@ -55,6 +55,31 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
+    if msg == "命令：功能選單":
+        line_bot_api.reply_message(  # 回復傳入的訊息文字
+                        event.reply_token,
+                        TemplateSendMessage(
+                            alt_text='Buttons template',
+                            template=ButtonsTemplate(
+                                title='ChatGpt功能',
+                                text='請選擇使用功能',
+                                actions=[
+                                    MessageTemplateAction(
+                                        label='聊天',
+                                        text='chatbot'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='錄音/文字轉換器',
+                                        text='Audiobot'
+                                    ),
+                                    MessageTemplateAction(
+                                        label='圖像生成',
+                                        text='Imagebot'
+                                    )
+                                ]
+                            )
+                        )
+                    )  
     try:
         GPT_answer = GPT_response(msg)
         print(GPT_answer)
