@@ -67,7 +67,7 @@ def handle_message(event):
                                         actions=[
                                             PostbackAction(
                                                 label='聊天',
-                                                data='A&chatbot'
+                                                data='A'
                                             ),
                                             PostbackAction(
                                                 label='錄音/文字轉換器',
@@ -88,7 +88,7 @@ def handle_message(event):
 def handle_message(event):
     if isinstance(event, PostbackEvent):
         print('00')
-        if event.postback.data[0:1] == "A":
+        if event.postback.data == "A":
             print('有')
             line_bot_api.reply_message(
                                 event.reply_token,
