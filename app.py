@@ -56,7 +56,7 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     if isinstance(event, MessageEvent):  # 如果有訊息事件
-            if msg == "命令：功能選單":
+            if msg == "c:function":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -101,22 +101,26 @@ def handle_message(event):
                                             PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
                                                 label='Gpt-4 turbo',
                                                 text='gpt-4-1106-preview',
-                                                data='a'
+                                                data='1&gpt-4-1106-preview'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4 turbo(圖像分析)',
                                                 text='gpt-4-vision-preview',
-                                                data='b'
+                                                data='2&gpt-4-vision-preview'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4',
                                                 text='gpt-4',
-                                                data='c'
+                                                data='3&gpt-4'
                                             )
                                         ]
                                     )
                                 )
                             )
+                if event.postback.data[0:1]== "1":
+                    model=event.postback.data[2:]
+                    line_bot_api.reply_message(event.reply_token, '現在模型:'+'model')
+                    
 @handler.add(MemberJoinedEvent)
 def welcome(event):
     uid = event.joined.members[0].user_id
