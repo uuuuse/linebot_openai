@@ -55,8 +55,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    for event in events:
-        if isinstance(event, MessageEvent):  # 如果有訊息事件
+    if isinstance(event, MessageEvent):  # 如果有訊息事件
             if msg == "命令：功能選單":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
                                 event.reply_token,
@@ -85,7 +84,7 @@ def handle_message(event):
                                     )
                                 )
                             )
-        elif isinstance(event, PostbackEvent):
+    elif isinstance(event, PostbackEvent):
             if event.postback.data=='a':
                 line_bot_api.reply_message(
                             event.reply_token,
@@ -116,7 +115,7 @@ def handle_message(event):
                         )
             elif isinstance(event, PostbackEvent):
                 model=event.postback.data
-        elif isinstance(event, PostbackEvent):
+    elif isinstance(event, PostbackEvent):
             try:
                     GPT_answer = GPT_response(msg)
                     print(GPT_answer)
