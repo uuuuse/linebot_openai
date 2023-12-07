@@ -90,7 +90,7 @@ def handle_message(event):
         print('00')
         if event.postback.data[0:1] == "A":
             print('有')
-                    line_bot_api.reply_message(
+            line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
                                     alt_text='Buttons template',
