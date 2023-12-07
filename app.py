@@ -115,7 +115,7 @@ def handle_message(event):
                         )
             elif isinstance(event, PostbackEvent):
                 model=event.postback.data
-        else:
+    else:
             try:
                 GPT_answer = GPT_response(msg,model)
                 print(GPT_answer)
