@@ -98,24 +98,21 @@ def handle_message(event):
                                         actions=[
                                             PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
                                                 label='Gpt-4 turbo',
-                                                text='gpt-4-1106-preview',
                                                 data='1&gpt-4-1106-preview'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4 turbo(圖像分析)',
-                                                text='gpt-4-vision-preview',
                                                 data='2&gpt-4-vision-preview'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4',
-                                                text='gpt-4',
                                                 data='3&gpt-4'
                                             )
                                         ]
                                     )
                                 )
                             )
-            if event.postback.data[0:1]== "1":
+        if event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
                     line_bot_api.reply_message(event.reply_token, '現在模型:'+model)
                     
