@@ -61,20 +61,20 @@ def handle_message(event):
                         TemplateSendMessage(
                             alt_text='Buttons template',
                             template=ButtonsTemplate(
-                                title='ChatGpt功能',
-                                text='請選擇使用功能',
-                                actions=[
-                                    MessageTemplateAction(
+                                   MessageTemplateAction(
                                         label='聊天',
                                         text='chatbot'
+                                        data='chatbot'
                                     ),
                                     MessageTemplateAction(
                                         label='錄音/文字轉換器',
                                         text='Audiobot'
+                                        data='Audiobot'
                                     ),
                                     MessageTemplateAction(
                                         label='圖像生成',
                                         text='Imagebot'
+                                        data='Imagebot'
                                     )
                                 ]
                             )
