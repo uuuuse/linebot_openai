@@ -84,9 +84,9 @@ def handle_message(event):
                                 )
                             )
                         )
-    else:
+        else:
             try:
-                GPT_answer = GPT_response(msg,model)
+                GPT_answer = GPT_response(msg)
                 print(GPT_answer)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
                 line_bot_api.reply_message(event.reply_token, TextSendMessage('---目前模型:'+model))
