@@ -67,17 +67,14 @@ def handle_message(event):
                                         actions=[
                                             PostbackAction(
                                                 label='聊天',
-                                                text='chatbot',
                                                 data='chatbot'
                                             ),
                                             PostbackAction(
                                                 label='錄音/文字轉換器',
-                                                text='Audiobot',
                                                 data='Audiobot'
                                             ),
                                             PostbackAction(
                                                 label='圖像生成',
-                                                text='Imagebot',
                                                 data='Imagebot'
                                             )
                                         ]
