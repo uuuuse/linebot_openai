@@ -87,9 +87,7 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_message(event):
     if isinstance(event, PostbackEvent):
-        print('00')
         if event.postback.data == "A":
-            print('有')
             line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -119,7 +117,7 @@ def handle_message(event):
                             )
                 if event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
-                    line_bot_api.reply_message(event.reply_token, '現在模型:'+'model')
+                    line_bot_api.reply_message(event.reply_token, '現在模型:'+model)
                     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
