@@ -56,12 +56,15 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     if msg == "命令：功能選單":
-        line_bot_api.reply_message(  # 回復傳入的訊息文字
+        line_bot_api.reply_message(  
                         event.reply_token,
                         TemplateSendMessage(
                             alt_text='Buttons template',
                             template=ButtonsTemplate(
-                                   MessageTemplateAction(
+                                title='ChatGpt功能',
+                                text='請選擇使用功能',
+                                actions=[
+                                    MessageTemplateAction(
                                         label='聊天',
                                         text='chatbot',
                                         data='chatbot'
