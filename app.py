@@ -67,21 +67,33 @@ def handle_message(event):
                                         actions=[
                                             MessageTemplateAction(
                                                 label='聊天',
-                                                text='chatbot'
+                                                text='chatbot',
+                                                data='A'
                                             ),
                                             MessageTemplateAction(
                                                 label='錄音/文字轉換器',
-                                                text='Audiobot'
+                                                text='Audiobot',
+                                                data='B'
                                             ),
                                             MessageTemplateAction(
                                                 label='圖像生成',
-                                                text='Imagebot'
+                                                text='Imagebot',
+                                                data='B'
                                             )
                                         ]
                                     )
                                 )
                             )
-      
+            else:
+                try:
+                        GPT_answer = GPT_response(msg)
+                        print(GPT_answer)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                except:
+                        print(traceback.format_exc())
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'))
+    elif isinstance(event, PostbackEvent):
+        if event.postback.data == "A":
                 if msg=="chatbot":
                     line_bot_api.reply_message(
                                 event.reply_token,
@@ -107,16 +119,6 @@ def handle_message(event):
                                     )
                                 )
                             )
-                    model=msg
-            else:
-                try:
-                        GPT_answer = GPT_response(msg)
-                        print(GPT_answer)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage('目前模型:'+model))
-                except:
-                        print(traceback.format_exc())
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+'---目前模型:'+model))
         
 
 @handler.add(PostbackEvent)
