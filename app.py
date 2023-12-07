@@ -112,9 +112,6 @@ def handle_message(event):
                                     )
                                 )
                             )
-    print(event.postback.data)
-
-
 @handler.add(MemberJoinedEvent)
 def welcome(event):
     uid = event.joined.members[0].user_id
