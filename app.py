@@ -67,25 +67,22 @@ def handle_message(event):
                                         actions=[
                                             MessageTemplateAction(
                                                 label='聊天',
-                                                text='chatbot',
-                                                data='a'
+                                                text='chatbot'
                                             ),
                                             MessageTemplateAction(
                                                 label='錄音/文字轉換器',
-                                                text='Audiobot',
-                                                data='b'
+                                                text='Audiobot'
                                             ),
                                             MessageTemplateAction(
                                                 label='圖像生成',
-                                                text='Imagebot',
-                                                data='c'
+                                                text='Imagebot'
                                             )
                                         ]
                                     )
                                 )
                             )
-            elif isinstance(event, PostbackEvent):
-                if event.postback.data=="a":
+      
+                if msg=="chatbot":
                     line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -96,33 +93,30 @@ def handle_message(event):
                                         actions=[
                                             PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
                                                 label='Gpt-4 turbo',
-                                                text='gpt-4-1106-preview',
-                                                data='gpt-4-1106-preview'
+                                                text='gpt-4-1106-preview'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4 turbo(圖像分析)',
-                                                text='gpt-4-vision-preview',
-                                                data='gpt-4-vision-preview'
+                                                text='gpt-4-vision-preview'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4',
-                                                text='gpt-4',
-                                                data='gpt-4'
+                                                text='gpt-4'
                                             )
                                         ]
                                     )
                                 )
                             )
-                elif isinstance(event, PostbackEvent):
-                    model=event.postback.data
-            try:
-                    GPT_answer = GPT_response(msg)
-                    print(GPT_answer)
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage('目前模型:'+model))
-            except:
-                    print(traceback.format_exc())
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+'---目前模型:'+model))
+                    model=msg
+            else:
+                try:
+                        GPT_answer = GPT_response(msg)
+                        print(GPT_answer)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage('目前模型:'+model))
+                except:
+                        print(traceback.format_exc())
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+'---目前模型:'+model))
         
 
 @handler.add(PostbackEvent)
