@@ -87,7 +87,9 @@ def handle_message(event):
 @handler.add(PostbackEvent)
 def handle_message(event):
     if isinstance(event, PostbackEvent):
+        print('00')
         if event.postback.data == "chatbot":
+            print('有')
                     line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
