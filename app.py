@@ -115,7 +115,7 @@ def handle_message(event):
                                     )
                                 )
                             )
-                if event.postback.data[0:1]== "1":
+            if event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
                     line_bot_api.reply_message(event.reply_token, '現在模型:'+model)
                     
