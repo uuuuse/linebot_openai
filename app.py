@@ -63,17 +63,17 @@ def handle_message(event):
                             template=ButtonsTemplate(
                                    MessageTemplateAction(
                                         label='聊天',
-                                        text='chatbot'
+                                        text='chatbot',
                                         data='chatbot'
                                     ),
                                     MessageTemplateAction(
                                         label='錄音/文字轉換器',
-                                        text='Audiobot'
+                                        text='Audiobot',
                                         data='Audiobot'
                                     ),
                                     MessageTemplateAction(
                                         label='圖像生成',
-                                        text='Imagebot'
+                                        text='Imagebot',
                                         data='Imagebot'
                                     )
                                 ]
