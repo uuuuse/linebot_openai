@@ -67,7 +67,7 @@ def handle_message(event):
                                         actions=[
                                             PostbackAction(
                                                 label='聊天',
-                                                data='chatbot'
+                                                data='A&chatbot'
                                             ),
                                             PostbackAction(
                                                 label='錄音/文字轉換器',
@@ -88,7 +88,7 @@ def handle_message(event):
 def handle_message(event):
     if isinstance(event, PostbackEvent):
         print('00')
-        if event.postback.data == "chatbot":
+        if event.postback.data[0:1] == "chatbot":
             print('有')
                     line_bot_api.reply_message(
                                 event.reply_token,
@@ -100,15 +100,18 @@ def handle_message(event):
                                         actions=[
                                             PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
                                                 label='Gpt-4 turbo',
-                                                text='gpt-4-1106-preview'
+                                                text='gpt-4-1106-preview',
+                                                data='a'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4 turbo(圖像分析)',
-                                                text='gpt-4-vision-preview'
+                                                text='gpt-4-vision-preview',
+                                                data='b'
                                             ),
                                             PostbackTemplateAction(
                                                 label='Gpt-4',
-                                                text='gpt-4'
+                                                text='gpt-4',
+                                                data='c'
                                             )
                                         ]
                                     )
