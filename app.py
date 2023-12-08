@@ -71,11 +71,11 @@ def handle_message(event):
                                             ),
                                             PostbackAction(
                                                 label='錄音/文字轉換器',
-                                                data='Audiobot'
+                                                data='B'
                                             ),
                                             PostbackAction(
                                                 label='圖像生成',
-                                                data='Imagebot'
+                                                data='C'
                                             )
                                         ]
                                     )
@@ -122,13 +122,66 @@ def handle_message(event):
                                     )
                                 )
                             )
+        elif event.postback.data == "B":
+            line_bot_api.reply_message(
+                                event.reply_token,
+                                TemplateSendMessage(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        title='Audiobot模型',
+                                        text='請選擇audiobot模型',
+                                        actions=[
+                                            PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
+                                                label='tts(轉換速度快)',
+                                                data='4&tts-1'
+                                            ),
+                                            PostbackTemplateAction(
+                                                label='tts(轉換品質高)',
+                                                data='5&tts-1-hd'
+                                            )
+                                        ]
+                                    )
+                                )
+                            )
+        elif event.postback.data == "C":
+            line_bot_api.reply_message(
+                                event.reply_token,
+                                TemplateSendMessage(
+                                    alt_text='Buttons template',
+                                    template=ButtonsTemplate(
+                                        title='Imagebot模型',
+                                        text='請選擇ImagetBot模型',
+                                        actions=[
+                                            PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
+                                                label='圖像變換',
+                                                data='6&dall-e-2'
+                                            ),
+                                            PostbackTemplateAction(
+                                                label='圖像生成',
+                                                data='7&dall-e-3'
+                                            )
+                                        ]
+                                    )
+                                )
+                            )
+##model------------------------------------------
+    #chatbot------------------------------------------
         elif event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
         elif event.postback.data[0:1]== "2":
                     model=event.postback.data[2:]
         elif event.postback.data[0:1]== "3":
                     model=event.postback.data[2:]
-                    
+    #audiobot------------------------------------------
+        elif event.postback.data[0:1]== "4":
+                    model=event.postback.data[2:]
+        elif event.postback.data[0:1]== "5":
+                    model=event.postback.data[2:]
+    #imagebot------------------------------------------
+        elif event.postback.data[0:1]== "6":
+                    model=event.postback.data[2:]
+        elif event.postback.data[0:1]== "7":
+                    model=event.postback.data[2:]        
 @handler.add(MemberJoinedEvent)
 def welcome(event):
     uid = event.joined.members[0].user_id
