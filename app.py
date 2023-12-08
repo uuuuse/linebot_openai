@@ -81,7 +81,7 @@ def handle_message(event):
                                 )
                             )
     try:
-        GPT_answer = GPT_response(msg,chatmodel=model)
+        GPT_answer = GPT_response(msg,chatmodel=changemodel)
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     except:
@@ -119,12 +119,12 @@ def handle_message(event):
                                 )
                             )
             if event.postback.data[0:1]== "1":
-                    model=event.postback.data[2:]
+                    changemodel=event.postback.data[2:]
             elif event.postback.data[0:1]== "2":
-                    model=event.postback.data[2:]
+                    changemodel=event.postback.data[2:]
             elif event.postback.data[0:1]== "3":
-                    model=event.postback.data[2:]
-            print(model)
+                    changemodel=event.postback.data[2:]
+            print(changemodel)
                     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
