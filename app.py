@@ -119,13 +119,13 @@ def handle_message(event):
                                 )
                             )
             #global changemodel
-            if event.postback.data[0:1]== "1":
+        elif event.postback.data[0:1]== "1":
                     changemodel=event.postback.data[2:]
                     print(changemodel)
-            elif event.postback.data[0:1]== "2":
+        elif event.postback.data[0:1]== "2":
                     changemodel=event.postback.data[2:]
                     print(changemodel)
-            elif event.postback.data[0:1]== "3":
+        elif event.postback.data[0:1]== "3":
                     changemodel=event.postback.data[2:]
                     print(changemodel)
                     
