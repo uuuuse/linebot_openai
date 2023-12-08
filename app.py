@@ -92,7 +92,7 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)
 def handle_message(event):
-    global changemodel
+    global model
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
             line_bot_api.reply_message(
@@ -121,13 +121,13 @@ def handle_message(event):
                             )
         elif event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
-                    print(changemodel)
+                    print(model)
         elif event.postback.data[0:1]== "2":
                     model=event.postback.data[2:]
-                    print(changemodel)
+                    print(model)
         elif event.postback.data[0:1]== "3":
                     model=event.postback.data[2:]
-                    print(changemodel)
+                    print(model)
                     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
