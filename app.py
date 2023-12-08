@@ -81,7 +81,7 @@ def handle_message(event):
                                 )
                             )
     try:
-        GPT_answer = GPT_response(msg,chatmodel=changemodel)
+        GPT_answer = GPT_response(msg)
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     except:
@@ -118,7 +118,7 @@ def handle_message(event):
                                     )
                                 )
                             )
-            global changemodel
+            #global changemodel
             if event.postback.data[0:1]== "1":
                     changemodel=event.postback.data[2:]
             elif event.postback.data[0:1]== "2":
