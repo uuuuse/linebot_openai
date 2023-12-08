@@ -24,6 +24,7 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
+model='0'
 
 
 def GPT_response(text,chatmodel='gpt-3.5-turbo-1106'):
@@ -55,7 +56,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if msg == "c:function":
+    if msg == "c@function":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -81,9 +82,11 @@ def handle_message(event):
                                 )
                             )
     try:
-        GPT_answer = GPT_response(msg,chatmodel=model)
-        print(GPT_answer)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+        try:
+            GPT_answer = GPT_response(msg,chatmodel=model)
+        except:
+            GPT_answer = GPT_response(msg)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer+model))
     except:
         print(traceback.format_exc())
         line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'))
@@ -121,13 +124,10 @@ def handle_message(event):
                             )
         elif event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
-                    print(model)
         elif event.postback.data[0:1]== "2":
                     model=event.postback.data[2:]
-                    print(model)
         elif event.postback.data[0:1]== "3":
                     model=event.postback.data[2:]
-                    print(model)
                     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
