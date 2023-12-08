@@ -118,7 +118,7 @@ def handle_message(event):
                                     )
                                 )
                             )
-            global changemodel=''
+            global changemodel
             if event.postback.data[0:1]== "1":
                     changemodel=event.postback.data[2:]
             elif event.postback.data[0:1]== "2":
