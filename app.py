@@ -26,9 +26,9 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
 
-def GPT_response(text):
+def GPT_response(text,chatmodel='gpt-3.5-turbo-1106'):
     # 接收回應
-    response = openai.Completion.create(model="text-davinci-003", prompt=text, temperature=0.5, max_tokens=500)
+    response = openai.Completion.create(model=chatmodel, prompt=text, temperature=0.5, max_tokens=500)
     print(response)
     # 重組回應
     answer = response['choices'][0]['text'].replace('。','')
@@ -55,8 +55,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if isinstance(event, MessageEvent):  # 如果有訊息事件
-            if msg == "c:function":
+    if msg == "c:function":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -81,6 +80,13 @@ def handle_message(event):
                                     )
                                 )
                             )
+    try:
+        GPT_answer = GPT_response(msg,model)
+        print(GPT_answer)
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+    except:
+        print(traceback.format_exc())
+        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'))
     
         
 
@@ -112,9 +118,13 @@ def handle_message(event):
                                     )
                                 )
                             )
-        if event.postback.data[0:1]== "1":
+            if event.postback.data[0:1]== "1":
                     model=event.postback.data[2:]
-                    print(model)
+            elif event.postback.data[0:1]== "2":
+                    model=event.postback.data[2:]
+            elif event.postback.data[0:1]== "3":
+                    model=event.postback.data[2:]
+            print(model)
                     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
