@@ -27,7 +27,7 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 model='0'
 
 
-def GPT_response(text,chatmodel='gpt-3.5-turbo-1106'):
+def GPT_response(text,chatmodel='gpt-4'):
     # 接收回應
     response = openai.Completion.create(model=chatmodel, prompt=text, temperature=0.5, max_tokens=500)
     print(response)
