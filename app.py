@@ -120,12 +120,14 @@ def handle_message(event):
                             )
             #global changemodel
         elif event.postback.data[0:1]== "1":
-                    model=event.postback.data[2:]           
+                    model=event.postback.data[2:]
+                    print(changemodel)
         elif event.postback.data[0:1]== "2":
                     model=event.postback.data[2:]
+                    print(changemodel)
         elif event.postback.data[0:1]== "3":
                     model=event.postback.data[2:]
-        print(changemodel)
+                    print(changemodel)
                     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
