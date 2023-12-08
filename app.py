@@ -27,9 +27,23 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 model='0'
 
 
-def GPT_response(text,chatmodel='gpt-4'):
+def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
     response = openai.Completion.create(model=chatmodel, prompt=text, temperature=0.5, max_tokens=500)
+    print(response)
+    # 重組回應
+    answer = response['choices'][0]['text'].replace('。','')
+    return answer
+def audioGPT_response(audio,audiomodel):
+    # 接收回應
+    response = openai.Completion.create(model=audiomodel, prompt=audio)
+    print(response)
+    # 重組回應
+    answer = response['choices'][0]['text'].replace('。','')
+    return answer
+def imageGPT_response(image,imagemodel):
+    # 接收回應
+    response = openai.Completion.create(imagemodel, prompt=image)
     print(response)
     # 重組回應
     answer = response['choices'][0]['text'].replace('。','')
