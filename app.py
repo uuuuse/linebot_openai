@@ -81,7 +81,7 @@ def handle_message(event):
                                 )
                             )
     try:
-        GPT_answer = GPT_response(msg,model)
+        GPT_answer = GPT_response(msg,chatmodel=model)
         print(GPT_answer)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
     except:
