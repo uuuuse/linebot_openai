@@ -24,8 +24,6 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 OpenAI.api_key = os.getenv('OPENAI_API_KEY')
-mode=''
-model=''
 client = OpenAI()
 userID='U4e96ffa8e2ffb3721a0965086eef3fb5'
 def chatGPT_response(text,chatmodel='gpt-4'):
@@ -137,6 +135,7 @@ def handle_message(event):
     global model
     global mode
     global imagemodel
+    global audiomodel
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
             mode='Chat'
