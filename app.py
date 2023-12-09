@@ -38,7 +38,7 @@ def chatGPT_response(text,chatmodel='gpt-4'):
                                              )
     print(response)
     # 重組回應
-    answer = response['choices'][0]['message']['content'].replace('。','')
+    answer = response.choices[0].message.content.replace('。','')
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
