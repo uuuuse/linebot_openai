@@ -75,7 +75,7 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     if event.source.user_id != userID:
-    # 這次我加了上面這一行
+        print('錯誤')
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=msg)
