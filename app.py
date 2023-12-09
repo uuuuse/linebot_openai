@@ -27,7 +27,7 @@ OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
 client = OpenAI()
-#userID='U4e96ffa8e2ffb3721a0965086eef3fb5'
+useID='U4e96ffa8e2ffb3721a0965086eef3fb5'
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
     response = client.chat.completions.create(model=chatmodel, 
@@ -67,6 +67,10 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
     # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
     return 'OK'
 
 
@@ -74,13 +78,13 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    #if event.source.user_id != userID:
-   #     print('錯誤')
-     #   line_bot_api.reply_message(
-       #     event.reply_token,
-       #     TextSendMessage(text=msg)
-      #  )
-    if msg == "c@function":
+    if event.source.user_id != userID:
+        print('錯誤')
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=msg)
+        )
+    elif msg == "c@function":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
                                 event.reply_token,
                                 TemplateSendMessage(
