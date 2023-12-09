@@ -76,13 +76,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if event.source.user_id != userID:
-        print('錯誤')
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=msg)
-        )
-    elif msg == "c@function":
+    if msg == "c@function":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
                                 event.reply_token,
                                 TemplateSendMessage(
