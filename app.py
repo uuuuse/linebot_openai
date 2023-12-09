@@ -156,7 +156,6 @@ def handle_message(event):
             print(audiomodel)
             line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+audiomodel+'---請輸入語音檔---'))
         elif event.postback.data == "C":
-            mode='Image'
             line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -195,6 +194,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片---'))
         elif event.postback.data[0:1]== "7":
             imagemodel=event.postback.data[2:]
+            mode='Image'
             line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片---'))
 @handler.add(MessageEvent, message=AudioMessage)  # 取得聲音時做的事情
 def handle_message_Audio(event):
