@@ -36,10 +36,10 @@ def chatGPT_response(text,chatmodel='gpt-4'):
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
-    response = openai.Completion.create(model=audiomodel, prompt=audio)
+    response = =openai.Audio.transcribe(model=audiomodel,file=audio)
     print(response)
     # 重組回應
-    answer = response['choices'][0]['text'].replace('。','')
+    answer = response['text']
     return answer
 def imageGPT_response(image,imagemodel):
     # 接收回應
@@ -137,26 +137,9 @@ def handle_message(event):
                                 )
                             )
         elif event.postback.data == "B":
-            line_bot_api.reply_message(
-                                event.reply_token,
-                                TemplateSendMessage(
-                                    alt_text='Buttons template',
-                                    template=ButtonsTemplate(
-                                        title='Audiobot模型',
-                                        text='請選擇audiobot模型',
-                                        actions=[
-                                            PostbackTemplateAction(  # 將第一步驟選擇的地區，包含在第二步驟的資料中
-                                                label='tts(轉換速度快)',
-                                                data='4&tts-1'
-                                            ),
-                                            PostbackTemplateAction(
-                                                label='tts(轉換品質高)',
-                                                data='5&tts-1-hd'
-                                            )
-                                        ]
-                                    )
-                                )
-                            )
+            audiomodel='whisper-1'
+            print(audiomodel)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用'+model+'請輸入語音檔'))
         elif event.postback.data == "C":
             line_bot_api.reply_message(
                                 event.reply_token,
@@ -187,15 +170,27 @@ def handle_message(event):
         elif event.postback.data[0:1]== "3":
                     model=event.postback.data[2:]
     #audiobot------------------------------------------
-        elif event.postback.data[0:1]== "4":
-                    model=event.postback.data[2:]
-        elif event.postback.data[0:1]== "5":
-                    model=event.postback.data[2:]
     #imagebot------------------------------------------
         elif event.postback.data[0:1]== "6":
                     model=event.postback.data[2:]
         elif event.postback.data[0:1]== "7":
-                    model=event.postback.data[2:]        
+                    model=event.postback.data[2:]
+@handler.add(MessageEvent, message=AudioMessage)  # 取得聲音時做的事情
+def handle_message_Audio(event):
+    #接收使用者語音訊息並存檔
+    UserID = event.source.user_id
+    path="./audio/"+UserID+".mp3"
+    audio_content = line_bot_api.get_message_content(event.message.id)
+    with open(path, 'wb') as fd:
+        for chunk in audio_content.iter_content():
+            fd.write(chunk)        
+    with open(path, 'rb') as audio:
+        try:
+            Audio_answer=audioGPT_response(audio,audiomodel)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(Audio_answer))
+        except:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('錯誤'))
+    
 @handler.add(MemberJoinedEvent)
 def welcome(event):
     uid = event.joined.members[0].user_id
