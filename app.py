@@ -165,19 +165,21 @@ def handle_message(event):
     #chatbot------------------------------------------
         elif event.postback.data[0:1]== "1":
             model=event.postback.data[2:]
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+model+'---請輸入文字---'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語言模型:'+model+'---請輸入文字---'))
         elif event.postback.data[0:1]== "2":
             model=event.postback.data[2:]
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+model+'---請輸入文字---'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語言模型:'+model+'---請輸入文字---'))
         elif event.postback.data[0:1]== "3":
             model=event.postback.data[2:]
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+model+'---請輸入文字---'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語言模型:'+model+'---請輸入文字---'))
     #audiobot------------------------------------------
     #imagebot------------------------------------------
         elif event.postback.data[0:1]== "6":
-                    model=event.postback.data[2:]
+            imagemodel=event.postback.data[2:]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片---'))
         elif event.postback.data[0:1]== "7":
-                    model=event.postback.data[2:]
+            imagemodel=event.postback.data[2:]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片---'))
 @handler.add(MessageEvent, message=AudioMessage)  # 取得聲音時做的事情
 def handle_message_Audio(event):
     #接收使用者語音訊息並存檔
