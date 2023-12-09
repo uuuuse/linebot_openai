@@ -27,7 +27,7 @@ OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
 client = OpenAI()
-useID='U4e96ffa8e2ffb3721a0965086eef3fb5'
+userID='U4e96ffa8e2ffb3721a0965086eef3fb5'
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
     response = client.chat.completions.create(model=chatmodel, 
