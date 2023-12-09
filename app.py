@@ -30,7 +30,7 @@ client = OpenAI()
 
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
-    response = client.chat.completions.create(model=chatmodel, message=text, temperature=0.5, max_tokens=500)
+    response = client.chat.completions.create(model=chatmodel, messages=text, temperature=0.5, max_tokens=500)
     print(response)
     # 重組回應
     answer = response['choices'][0]['message']['content'].replace('。','')
