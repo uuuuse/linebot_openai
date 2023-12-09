@@ -139,7 +139,7 @@ def handle_message(event):
         elif event.postback.data == "B":
             audiomodel='whisper-1'
             print(audiomodel)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用'+model+'請輸入語音檔'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用:'+audiomodel+\n+'請輸入語音檔'))
         elif event.postback.data == "C":
             line_bot_api.reply_message(
                                 event.reply_token,
