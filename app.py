@@ -27,6 +27,9 @@ OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
 client = OpenAI()
+global mode
+global model
+global imagemodel
 
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
@@ -129,8 +132,6 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)
 def handle_message(event):
-    global mode
-    global model
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
             mode='Chat'
