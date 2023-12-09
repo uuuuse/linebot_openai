@@ -39,7 +39,7 @@ def chatGPT_response(text,chatmodel='gpt-4'):
                                              )
     print(response)
     # 重組回應
-    answer = response.choices[0].message.content.replace('。','')
+    answer = response.choices[0].message.content
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
@@ -55,7 +55,7 @@ def imageGPT_generate_response(imagetext,imagemodel):
                 model=imagemodel,
                 size="1024x1024"
             )
-    image_url = response['data'][0]['url'].strip()
+    image_url = response.data[0].url.strip()
     # 重組回應
     return image_url
 
