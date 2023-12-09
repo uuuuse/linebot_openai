@@ -219,7 +219,7 @@ def handle_message_Audio(event):
        for chuck in audio_content.iter_content():
            tf.write(chuck)      
     try:
-        Audio_answer=audioGPT_response(tf.name,audiomodel)
+        Audio_answer=audioGPT_response(tf,audiomodel)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(Audio_answer))
     except:
         print(traceback.format_exc())
