@@ -11,7 +11,7 @@ from linebot.models import *
 #======python的函數庫==========
 import tempfile, os
 import datetime
-import openai
+from openai import OpenAI
 import time
 import traceback
 #======python的函數庫==========
@@ -26,25 +26,25 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 openai.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
-
+client = OpenAI()
 
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
-    response = openai.chat.completions.create(model=chatmodel, prompt=text, temperature=0.5, max_tokens=500)
+    response = client.chat.completions.create(model=chatmodel, prompt=text, temperature=0.5, max_tokens=500)
     print(response)
     # 重組回應
     answer = response['choices'][0]['text'].replace('。','')
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
-    response=openai.audio.transcriptions.create(model=audiomodel,file=audio)
+    response=client.audio.transcriptions.create(model=audiomodel,file=audio)
     print(response)
     # 重組回應
     answer = response['text']
     return answer
 def imageGPT_generate_response(imagetext,imagemodel):
     # 接收回應
-    response = openai.images.generate(prompt = imagetext,
+    response = client.images.generate(prompt = imagetext,
                 n=1,
                 model=imagemodel,
                 size="1024x1024"
