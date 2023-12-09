@@ -23,7 +23,7 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 # Channel Secret
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
-openai.api_key = os.getenv('OPENAI_API_KEY')
+OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
 client = OpenAI()
@@ -34,8 +34,8 @@ def chatGPT_response(text,chatmodel='gpt-4'):
                                               messages = [
                                                 {'role': 'user', 'content': text}
                                               ], 
-                                              temperature=0.5, 
-                                              max_tokens=500)
+                                              temperature=0.5
+                                             )
     print(response)
     # 重組回應
     answer = response['choices'][0]['message']['content'].replace('。','')
