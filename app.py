@@ -58,11 +58,6 @@ def imageGPT_generate_response(imagetext,imagemodel):
     # 重組回應
     return image_url
 
-try:
-    profile = line_bot_api.get_profile('<user_id>')
-except LineBotApiError as e:
-    # error handle
-
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -72,6 +67,7 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
     # handle webhook body
+    print(body)
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
