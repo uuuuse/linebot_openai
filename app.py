@@ -101,7 +101,7 @@ def handle_message(event):
     elif mode =="Image":
         try:
             image_url=imageGPT_generate_response(msg,imagemodel)
-            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url)
+            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
 
     else:   
         try:
