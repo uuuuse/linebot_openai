@@ -37,14 +37,14 @@ def chatGPT_response(text,chatmodel='gpt-4'):
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
-    response=openai.Audio.transcribe(model=audiomodel,file=audio)
+    response=openai.audio.transcriptions.create(model=audiomodel,file=audio)
     print(response)
     # 重組回應
     answer = response['text']
     return answer
 def imageGPT_generate_response(imagetext,imagemodel):
     # 接收回應
-    response = openai.Image.create(prompt = imagetext,
+    response = openai.images.generate(prompt = imagetext,
                 n=1,
                 model=imagemodel,
                 size="1024x1024"
