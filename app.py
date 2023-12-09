@@ -139,7 +139,7 @@ def handle_message(event):
         elif event.postback.data == "B":
             audiomodel='whisper-1'
             print(audiomodel)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用:'+audiomodel+'---請輸入語音檔---'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+audiomodel+'---請輸入語音檔---'))
         elif event.postback.data == "C":
             line_bot_api.reply_message(
                                 event.reply_token,
@@ -164,11 +164,14 @@ def handle_message(event):
 ##model------------------------------------------
     #chatbot------------------------------------------
         elif event.postback.data[0:1]== "1":
-                    model=event.postback.data[2:]
+            model=event.postback.data[2:]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+model+'---請輸入文字---'))
         elif event.postback.data[0:1]== "2":
-                    model=event.postback.data[2:]
+            model=event.postback.data[2:]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+model+'---請輸入文字---'))
         elif event.postback.data[0:1]== "3":
-                    model=event.postback.data[2:]
+            model=event.postback.data[2:]
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+model+'---請輸入文字---'))
     #audiobot------------------------------------------
     #imagebot------------------------------------------
         elif event.postback.data[0:1]== "6":
