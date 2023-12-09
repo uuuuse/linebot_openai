@@ -67,7 +67,6 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
     # handle webhook body
-    print(body)
     return 'OK'
 
 
@@ -79,7 +78,7 @@ def handle_message(event):
     # 這次我加了上面這一行
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text=event.message.text)
+            TextSendMessage(text=msg)
         )
     elif msg == "c@function":
                 line_bot_api.reply_message(  # 回復傳入的訊息文字
