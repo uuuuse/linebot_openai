@@ -36,7 +36,7 @@ def chatGPT_response(text,chatmodel='gpt-4'):
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
-    response = =openai.Audio.transcribe(model=audiomodel,file=audio)
+    response=openai.Audio.transcribe(model=audiomodel,file=audio)
     print(response)
     # 重組回應
     answer = response['text']
