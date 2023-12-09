@@ -215,17 +215,17 @@ def handle_message_Audio(event):
     UserID = event.source.user_id
     path="./audio/"+UserID+".mp3"
     audio_content = line_bot_api.get_message_content(event.message.id)
-    with tempfile.NamedTemporaryFile(suffix=".mp3") as tf:
+    path='./temp.mp3'
+    with open(path,'wb') as audio:
        for chuck in audio_content.iter_content():
-           tf.write(chuck)      
-    try:
-        Audio_answer=audioGPT_response(tf,audiomodel)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(Audio_answer))
-    except:
-        print(tf)
-        print(tf.name)
-        print(traceback.format_exc())
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('錯誤'))
+          audio.write(chuck)
+    with open('temp.mp3','rb') as audio_file:     
+        try:
+            Audio_answer=audioGPT_response(audio_file,audiomodel)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(Audio_answer))
+        except:
+            print(traceback.format_exc())
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('錯誤'))
     
 @handler.add(MemberJoinedEvent)
 def welcome(event):
