@@ -40,10 +40,10 @@ def chatGPT_response(text,chatmodel='gpt-4'):
     return answer
 def audioGPT_response(audio,audiomodel):
     # 接收回應
-    response=client.audio.transcriptions.create(model=audiomodel,file=audio)
-    print(response)
-    # 重組回應
-    answer = response['text']
+    response=client.audio.transcriptions.create(model=audiomodel,
+                                                file=audio,
+                                                response_format="text")
+    answer =response
     return answer
 def imageGPT_generate_response(imagetext,imagemodel):
     # 接收回應
