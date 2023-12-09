@@ -123,6 +123,8 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)
 def handle_message(event):
+    global mode
+    global model
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
             mode='Chat'
@@ -195,7 +197,6 @@ def handle_message(event):
         elif event.postback.data[0:1]== "7":
             imagemodel=event.postback.data[2:]
             mode='Image'
-            print(mode)
             line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片---'))
 @handler.add(MessageEvent, message=AudioMessage)  # 取得聲音時做的事情
 def handle_message_Audio(event):
