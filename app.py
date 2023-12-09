@@ -24,12 +24,13 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 OpenAI.api_key = os.getenv('OPENAI_API_KEY')
-mode=''
-model=''
-client = OpenAI()
 global mode
 global model
 global imagemodel
+mode=''
+model=''
+client = OpenAI()
+
 
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
