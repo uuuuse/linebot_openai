@@ -102,14 +102,16 @@ def handle_message(event):
         try:
             image_url=imageGPT_generate_response(msg,imagemodel)
             line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-
+        except:
+            print(traceback.format_exc())
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+mode))
     else:   
         try:
             try:
                 GPT_answer = GPT_response(msg,chatmodel=model)
             except:
                 GPT_answer = GPT_response(msg)
-            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
         except:
             print(traceback.format_exc())
             line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+model))
