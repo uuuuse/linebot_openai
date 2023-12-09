@@ -27,11 +27,6 @@ OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
 client = OpenAI()
-try:
-    profile = line_bot_api.get_profile('<user_id>')
-except LineBotApiError as e:
-    # error handle
-
 
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
@@ -63,6 +58,10 @@ def imageGPT_generate_response(imagetext,imagemodel):
     # 重組回應
     return image_url
 
+try:
+    profile = line_bot_api.get_profile('<user_id>')
+except LineBotApiError as e:
+    # error handle
 
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
