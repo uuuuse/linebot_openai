@@ -222,6 +222,8 @@ def handle_message_Audio(event):
         Audio_answer=audioGPT_response(tf,audiomodel)
         line_bot_api.reply_message(event.reply_token, TextSendMessage(Audio_answer))
     except:
+        print(tf)
+        print(tf.name)
         print(traceback.format_exc())
         line_bot_api.reply_message(event.reply_token, TextSendMessage('錯誤'))
     
