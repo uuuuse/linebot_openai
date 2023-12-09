@@ -24,9 +24,6 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 OpenAI.api_key = os.getenv('OPENAI_API_KEY')
-global mode
-global model
-global imagemodel
 mode=''
 model=''
 client = OpenAI()
@@ -133,6 +130,9 @@ def handle_message(event):
 
 @handler.add(PostbackEvent)
 def handle_message(event):
+    global model
+    global mode
+    global imagemodel
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
             mode='Chat'
