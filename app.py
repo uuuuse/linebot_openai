@@ -108,9 +108,9 @@ def handle_message(event):
     else:   
         try:
             try:
-                GPT_answer = GPT_response(msg,chatmodel=model)
+                GPT_answer = chatGPT_response(msg,chatmodel=model)
             except:
-                GPT_answer = GPT_response(msg)
+                GPT_answer = chatGPT_response(msg)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
         except:
             print(traceback.format_exc())
