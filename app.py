@@ -43,7 +43,7 @@ def audioGPT_response(audio,audiomodel):
     response=client.audio.transcriptions.create(model=audiomodel,
                                                 file=audio,
                                                 response_format="text")
-    answer =response[0]['text']
+    answer =response
     return answer
 def imageGPT_generate_response(imagetext,imagemodel):
     # 接收回應
@@ -219,6 +219,7 @@ def handle_message_Audio(event):
     with open(path,'wb') as audio:
        for chuck in audio_content.iter_content():
           audio.write(chuck)
+    print(audio)
     with open('temp.mp3','rb') as audio_file:     
         try:
             Audio_answer=audioGPT_response(audio_file,audiomodel)
