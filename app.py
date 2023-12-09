@@ -43,7 +43,7 @@ def audioGPT_response(audio,audiomodel):
     response=client.audio.transcriptions.create(model=audiomodel,
                                                 file=audio,
                                                 response_format="text")
-    answer =response
+    answer =response['text']
     return answer
 def imageGPT_generate_response(imagetext,imagemodel):
     # 接收回應
