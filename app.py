@@ -27,6 +27,10 @@ OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
 model=''
 client = OpenAI()
+try:
+    profile = line_bot_api.get_profile('<user_id>')
+except LineBotApiError as e:
+    # error handle
 
 
 def chatGPT_response(text,chatmodel='gpt-4'):
