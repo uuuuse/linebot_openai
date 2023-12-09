@@ -24,7 +24,7 @@ line_bot_api = LineBotApi(os.getenv('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
-model='0'
+mode=''
 
 
 def chatGPT_response(text,chatmodel='gpt-4'):
@@ -41,13 +41,16 @@ def audioGPT_response(audio,audiomodel):
     # 重組回應
     answer = response['text']
     return answer
-def imageGPT_response(image,imagemodel):
+def imageGPT_generate_response(imagetext,imagemodel):
     # 接收回應
-    response = openai.Completion.create(imagemodel, prompt=image)
-    print(response)
+    response = openai.Image.create(prompt = imagetext,
+                n=1,
+                model=imagemodel,
+                size="1024x1024"
+            )
+    image_url = response['data'][0]['url'].strip()
     # 重組回應
-    answer = response['choices'][0]['text'].replace('。','')
-    return answer
+    return image_url
 
 
 # 監聽所有來自 /callback 的 Post Request
@@ -95,23 +98,29 @@ def handle_message(event):
                                     )
                                 )
                             )
-    try:
+    elif mode =="Image":
         try:
-            GPT_answer = GPT_response(msg,chatmodel=model)
+            image_url=imageGPT_generate_response(msg,imagemodel)
+            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url)
+                        ))
+    else:   
+        try:
+            try:
+                GPT_answer = GPT_response(msg,chatmodel=model)
+            except:
+                GPT_answer = GPT_response(msg)
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
         except:
-            GPT_answer = GPT_response(msg)
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-    except:
-        print(traceback.format_exc())
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+model))
+            print(traceback.format_exc())
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息'+model))
     
         
 
 @handler.add(PostbackEvent)
 def handle_message(event):
-    global model
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
+            mode='Chat'
             line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
@@ -137,10 +146,12 @@ def handle_message(event):
                                 )
                             )
         elif event.postback.data == "B":
+            mode='Audio'
             audiomodel='whisper-1'
             print(audiomodel)
             line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用語音模型:'+audiomodel+'---請輸入語音檔---'))
         elif event.postback.data == "C":
+            mode='Image'
             line_bot_api.reply_message(
                                 event.reply_token,
                                 TemplateSendMessage(
