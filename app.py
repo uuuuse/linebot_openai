@@ -25,6 +25,7 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 openai.api_key = os.getenv('OPENAI_API_KEY')
 mode=''
+model=''
 
 
 def chatGPT_response(text,chatmodel='gpt-4'):
@@ -109,6 +110,7 @@ def handle_message(event):
         try:
             try:
                 GPT_answer = chatGPT_response(msg,chatmodel=model)
+                line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
             except:
                 GPT_answer = chatGPT_response(msg)
                 line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
