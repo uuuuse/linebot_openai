@@ -109,6 +109,7 @@ def handle_message(event):
                                                 ]
                                             )
                                         )
+                        )
         elif mode =='Image':
                 print('成功')
                 try:
