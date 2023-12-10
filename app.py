@@ -25,7 +25,8 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 # OPENAI API Key初始化設定
 OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI()
-userID='U4e96ffa8e2ffb3721a0965086eef3fb5'
+userID=''
+mins=0
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
     response = client.chat.completions.create(model=chatmodel, 
@@ -55,7 +56,11 @@ def imageGPT_generate_response(imagetext,imagemodel):
     image_url = response.data[0].url.strip()
     # 重組回應
     return image_url
-
+def timecount(x):
+   for i in range(10):
+        x+=1
+        time.sleep(60)
+timecount(mins)
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -76,51 +81,56 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if msg == "c@function":
-                line_bot_api.reply_message(  # 回復傳入的訊息文字
-                                event.reply_token,
-                                TemplateSendMessage(
-                                    alt_text='Buttons template',
-                                    template=ButtonsTemplate(
-                                        title='ChatGpt功能',
-                                        text='請選擇使用功能',
-                                        actions=[
-                                            PostbackAction(
-                                                label='聊天',
-                                                data='A'
-                                            ),
-                                            PostbackAction(
-                                                label='錄音/文字轉換器',
-                                                data='B'
-                                            ),
-                                            PostbackAction(
-                                                label='圖像生成',
-                                                data='C'
+    if event.source.user_id ==userID:
+        mins=0
+        if msg == 'c@useid':
+            userID=event.source.user_id
+        elif msg == "c@function":
+                        line_bot_api.reply_message(  # 回復傳入的訊息文字
+                                        event.reply_token,
+                                        TemplateSendMessage(
+                                            alt_text='Buttons template',
+                                            template=ButtonsTemplate(
+                                                title='ChatGpt功能',
+                                                text='請選擇使用功能',
+                                                actions=[
+                                                    PostbackAction(
+                                                        label='聊天',
+                                                        data='A'
+                                                    ),
+                                                    PostbackAction(
+                                                        label='錄音/文字轉換器',
+                                                        data='B'
+                                                    ),
+                                                    PostbackAction(
+                                                        label='圖像生成',
+                                                        data='C'
+                                                    )
+                                                ]
                                             )
-                                        ]
-                                    )
-                                )
-                            )
-    elif mode =='Image':
-        print('成功')
-        try:
-            image_url=imageGPT_generate_response(msg,imagemodel)
-            line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-        except:
-            print(traceback.format_exc())
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模式:'+mode))
-    else:   
-        try:
-            if model=='':
-                GPT_answer = chatGPT_response(msg)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-                
-            else:
-                GPT_answer = chatGPT_response(msg,chatmodel=model)
-                line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-        except:
-            print(traceback.format_exc())
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模型:'+model))
+                                        )
+        elif mode =='Image':
+                print('成功')
+                try:
+                    image_url=imageGPT_generate_response(msg,imagemodel)
+                    line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+                except:
+                    print(traceback.format_exc())
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模式:'+mode))
+            else:   
+                try:
+                    if model=='':
+                        GPT_answer = chatGPT_response(msg)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                        
+                    else:
+                        GPT_answer = chatGPT_response(msg,chatmodel=model)
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                except:
+                    print(traceback.format_exc())
+                    line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模型:'+model))
+    else:
+        line_bot_api.reply_message(event.reply_token, TextSendMessage('Bot使用中!請稍後'))
     
         
 
@@ -130,6 +140,7 @@ def handle_message(event):
     global mode
     global imagemodel
     global audiomodel
+    mins=0
     if isinstance(event, PostbackEvent):
         if event.postback.data == "A":
             mode='Chat'
@@ -202,9 +213,10 @@ def handle_message(event):
         elif event.postback.data[0:1]== "7":
             imagemodel=event.postback.data[2:]
             mode='Image'
-            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片---'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('目前使用繪圖模型:'+imagemodel+'---請輸入圖片描述---'))
 @handler.add(MessageEvent, message=AudioMessage)  # 取得聲音時做的事情
 def handle_message_Audio(event):
+    mins=0
     #接收使用者語音訊息並存檔
     UserID = event.source.user_id
     path="./audio/"+UserID+".mp3"
