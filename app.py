@@ -79,6 +79,10 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     global userID
+    global model
+    global mode
+    global imagemodel
+    global audiomodel
     msg = event.message.text
     if msg == 'c@useid':
         userID=event.source.user_id
