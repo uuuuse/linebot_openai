@@ -60,7 +60,6 @@ def timecount(x):
    for i in range(10):
         x+=1
         time.sleep(60)
-timecount(mins)
 # 監聽所有來自 /callback 的 Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -243,7 +242,7 @@ def welcome(event):
     name = profile.display_name
     message = TextSendMessage(text=f'{name}歡迎加入')
     line_bot_api.reply_message(event.reply_token, message)
-        
+      
         
 import os
 if __name__ == "__main__":
