@@ -81,7 +81,9 @@ def callback():
 def handle_message(event):
     msg = event.message.text
     if msg == 'c@useid':
-            userID=event.source.user_id
+        userID=event.source.user_id
+        model=''
+        mode=''
         if event.source.user_id ==userID:
         
             if msg == "c@function":
