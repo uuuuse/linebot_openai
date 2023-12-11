@@ -84,8 +84,7 @@ def handle_message(event):
         userID=event.source.user_id
         model=''
         mode=''
-        if event.source.user_id ==userID:
-        
+    elif event.source.user_id ==userID:
             if msg == "c@function":
                             line_bot_api.reply_message(  # 回復傳入的訊息文字
                                             event.reply_token,
@@ -135,7 +134,7 @@ def handle_message(event):
             line_bot_api.reply_message(event.reply_token, TextSendMessage('請登入您的ID'))
     elif msg== 'c@end':
             userID=''
-    else:
+    elif event.source.user_id !=userID::
             line_bot_api.reply_message(event.reply_token, TextSendMessage('Bot使用中!請稍後'))
     
         
