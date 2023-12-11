@@ -78,6 +78,7 @@ def callback():
 # 處理訊息
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    global userID
     msg = event.message.text
     if msg == 'c@useid':
         userID=event.source.user_id
@@ -130,7 +131,7 @@ def handle_message(event):
                     except:
                         print(traceback.format_exc())
                         line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模型:'+model))
-    elif userID=='':
+    elif userID =='':
             line_bot_api.reply_message(event.reply_token, TextSendMessage('請登入您的ID'))
     elif msg== 'c@end':
             userID=''
