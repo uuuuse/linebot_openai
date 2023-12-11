@@ -26,7 +26,6 @@ handler = WebhookHandler(os.getenv('CHANNEL_SECRET'))
 OpenAI.api_key = os.getenv('OPENAI_API_KEY')
 client = OpenAI()
 userID=''
-mins=0
 def chatGPT_response(text,chatmodel='gpt-4'):
     # 接收回應
     response = client.chat.completions.create(model=chatmodel, 
@@ -131,11 +130,11 @@ def handle_message(event):
                     except:
                         print(traceback.format_exc())
                         line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模型:'+model))
-        elif userID=='':
+    elif userID=='':
             line_bot_api.reply_message(event.reply_token, TextSendMessage('請登入您的ID'))
-        elif msg== 'c@end':
+    elif msg== 'c@end':
             userID=''
-        else:
+    else:
             line_bot_api.reply_message(event.reply_token, TextSendMessage('Bot使用中!請稍後'))
     
         
