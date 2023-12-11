@@ -80,57 +80,57 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
     msg = event.message.text
-    if event.source.user_id ==userID:
-        mins=0
-        if msg == 'c@useid':
+    if msg == 'c@useid':
             userID=event.source.user_id
-        elif msg == "c@function":
-                        line_bot_api.reply_message(  # 回復傳入的訊息文字
-                                        event.reply_token,
-                                        TemplateSendMessage(
-                                            alt_text='Buttons template',
-                                            template=ButtonsTemplate(
-                                                title='ChatGpt功能',
-                                                text='請選擇使用功能',
-                                                actions=[
-                                                    PostbackAction(
-                                                        label='聊天',
-                                                        data='A'
-                                                    ),
-                                                    PostbackAction(
-                                                        label='錄音/文字轉換器',
-                                                        data='B'
-                                                    ),
-                                                    PostbackAction(
-                                                        label='圖像生成',
-                                                        data='C'
-                                                    )
-                                                ]
+        if event.source.user_id ==userID:
+        
+            if msg == "c@function":
+                            line_bot_api.reply_message(  # 回復傳入的訊息文字
+                                            event.reply_token,
+                                            TemplateSendMessage(
+                                                alt_text='Buttons template',
+                                                template=ButtonsTemplate(
+                                                    title='ChatGpt功能',
+                                                    text='請選擇使用功能',
+                                                    actions=[
+                                                        PostbackAction(
+                                                            label='聊天',
+                                                            data='A'
+                                                        ),
+                                                        PostbackAction(
+                                                            label='錄音/文字轉換器',
+                                                            data='B'
+                                                        ),
+                                                        PostbackAction(
+                                                            label='圖像生成',
+                                                            data='C'
+                                                        )
+                                                    ]
+                                                )
                                             )
-                                        )
-                        )
-        elif mode =='Image':
-                print('成功')
-                try:
-                    image_url=imageGPT_generate_response(msg,imagemodel)
-                    line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
-                except:
-                    print(traceback.format_exc())
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模式:'+mode))
-        else:   
-                try:
-                    if model=='':
-                        GPT_answer = chatGPT_response(msg)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-                        
-                    else:
-                        GPT_answer = chatGPT_response(msg,chatmodel=model)
-                        line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
-                except:
-                    print(traceback.format_exc())
-                    line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模型:'+model))
-    else:
-        line_bot_api.reply_message(event.reply_token, TextSendMessage('Bot使用中!請稍後'))
+                            )
+            elif mode =='Image':
+                    print('成功')
+                    try:
+                        image_url=imageGPT_generate_response(msg,imagemodel)
+                        line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url=image_url, preview_image_url=image_url))
+                    except:
+                        print(traceback.format_exc())
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模式:'+mode))
+            else:   
+                    try:
+                        if model=='':
+                            GPT_answer = chatGPT_response(msg)
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                            
+                        else:
+                            GPT_answer = chatGPT_response(msg,chatmodel=model)
+                            line_bot_api.reply_message(event.reply_token, TextSendMessage(GPT_answer))
+                    except:
+                        print(traceback.format_exc())
+                        line_bot_api.reply_message(event.reply_token, TextSendMessage('你所使用的OPENAI API key額度可能已經超過，請於後台Log內確認錯誤訊息---目前模型:'+model))
+        else:
+            line_bot_api.reply_message(event.reply_token, TextSendMessage('Bot使用中!請稍後'))
     
         
 
